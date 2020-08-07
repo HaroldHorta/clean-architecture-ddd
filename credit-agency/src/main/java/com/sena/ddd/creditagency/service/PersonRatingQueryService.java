@@ -1,35 +1,36 @@
 package com.sena.ddd.creditagency.service;
 
 import com.sena.ddd.creditagency.model.PersonRating;
-import com.sena.ddd.creditagency.repository.PersonRatingRespository;
+import com.sena.ddd.creditagency.repository.PersonRatingRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
+@Service
 public class PersonRatingQueryService {
+	private PersonRatingRepository personRatingRepository;
 
-    private final PersonRatingRespository personRatingRespository;
+	@Autowired
+	public PersonRatingQueryService(PersonRatingRepository personRatingRepository) {
+		this.personRatingRepository = personRatingRepository;
+	}
 
-    public PersonRatingQueryService(PersonRatingRespository personRatingRespository) {
-        this.personRatingRespository = personRatingRespository;
-    }
-
-    public void ratePerson(String firstName, String lastName, String street, String postCode, String city){
-        PersonRating rating= new PersonRating();
-
-        rating.setCity(city);
-        rating.setFirstName(firstName);
-        rating.setLastName(firstName);
-        rating.setPostCode(postCode);
-        rating.setStreet(street);
-        rating.setPoints(100);
-        rating.setLastUpdated(new Date());
-        GregorianCalendar gregorianCalendar= new GregorianCalendar();
-        gregorianCalendar.add(Calendar.MONTH, 1);
-        rating.setValidTo(gregorianCalendar.getTime());
-
-        personRatingRespository.save(rating);
-
-    }
+	public void ratePerson(String firstName, String lastName, String street, String postCode, String city) {
+		PersonRating rating = new PersonRating();
+		rating.setCity(city);
+		rating.setFirstName(firstName);
+		rating.setLastName(lastName);
+		rating.setPostCode(postCode);
+		rating.setStreet(street);
+		rating.setPoints(100);
+		rating.setLastUpdated(new Date());
+		GregorianCalendar gregorianCalendar = new GregorianCalendar();
+		gregorianCalendar.add(Calendar.MONTH, 1);
+		System.out.println(gregorianCalendar.getTime());
+		rating.setValidTo(gregorianCalendar.getTime());
+		personRatingRepository.save(rating);
+	}
 }

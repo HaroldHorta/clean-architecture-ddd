@@ -1,6 +1,6 @@
 package com.sena.ddd.creditagency.web;
 
-import com.sena.ddd.creditagency.repository.PersonRatingRespository;
+import com.sena.ddd.creditagency.repository.PersonRatingRepository;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,24 +13,22 @@ import java.util.Date;
 @Controller
 @RequestMapping("person-rating")
 public class PersonRatingController {
+	private PersonRatingRepository personRatingRepository;
 
-    private final PersonRatingRespository personRatingRespository;
+	public PersonRatingController(PersonRatingRepository personRatingRepository) {
+		this.personRatingRepository = personRatingRepository;
+	}
 
-    public PersonRatingController(PersonRatingRespository personRatingRespository) {
-        this.personRatingRespository = personRatingRespository;
-    }
+	@RequestMapping(value = "/feed", produces = "application/atom+xml")
+	public ModelAndView orderFeed(WebRequest webRequest, HttpServletResponse response) {
 
-    @RequestMapping(value = "/feed", produces = "application/atom+xml")
-    public ModelAndView orderFeed (WebRequest webRequest, HttpServletResponse response){
-        Date lastUpdate = personRatingRespository.lastupdate();
+		Date lastUpdate = personRatingRepository.lastUpdate();
+		// null handling for a new start of the application with no current ratings in it
+		if(lastUpdate != null) {
+			response.setDateHeader("Last-Modified", lastUpdate.getTime());
+		}
 
-        if(lastUpdate != null ){
-            response.setDateHeader("Last-Modified", lastUpdate.getTime());
-        }
-
-        Sort sort = Sort.by(Sort.Direction.ASC, "lastUpdated");
-
-        return new ModelAndView(new PersonRatingAtomFeedView(personRatingRespository),
-                "personRatings", personRatingRespository.findAll(sort));
-    }
+		Sort sort = new Sort(Sort.Direction.ASC, "lastUpdated");
+		return new ModelAndView(new PersonRatingAtomFeedView(personRatingRepository), "personRatings", personRatingRepository.findAll(sort));
+	}
 }

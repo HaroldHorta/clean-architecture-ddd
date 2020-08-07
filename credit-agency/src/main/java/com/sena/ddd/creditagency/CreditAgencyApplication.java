@@ -8,9 +8,7 @@ import org.springframework.cloud.stream.annotation.EnableBinding;
 @SpringBootApplication
 @EnableBinding(CreditAgencyChannels.class)
 public class CreditAgencyApplication {
-
-    public static void main(String[] args) {
-        SpringApplication.run(CreditAgencyApplication.class, args);
-    }
-
+	public static void main(String[] args) {
+		SpringApplication.run(CreditAgencyApplication.class);
+	}
 }

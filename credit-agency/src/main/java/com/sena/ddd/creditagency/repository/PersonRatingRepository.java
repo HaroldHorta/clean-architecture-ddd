@@ -6,8 +6,9 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.util.Date;
 
-public interface PersonRatingRespository extends JpaRepository <PersonRating, Long> {
 
-    @Query("select  max (pr.lastUpdated) from PersonRating pr")
-    Date lastupdate();
+public interface PersonRatingRepository extends JpaRepository<PersonRating, Long> {
+	@Query("SELECT max(pr.lastUpdated) FROM PersonRating pr")
+	Date lastUpdate();
+
 }

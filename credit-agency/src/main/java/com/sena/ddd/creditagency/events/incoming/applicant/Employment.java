@@ -1,4 +1,4 @@
-package com.sena.ddd.creditagency.event.incoming.applicant;
+package com.sena.ddd.creditagency.events.incoming.applicant;
 
 public enum Employment {
 	EMPLOYEE("Employee"), OFFICIAL("Official"),

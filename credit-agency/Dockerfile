@@ -1,5 +1,5 @@
 FROM openjdk:8-jdk-alpine
-LABEL maintainer = "harold"
+LABEL maintainer="michael.ploed@innoq.com"
 VOLUME /tmp
 ENV JAVA_OPTS=""
 ENV SPRING_APPLICATION_JSON='{"spring": {"rabbitmq": {"host": "localrabbit", "addresses": "rabbit-mq"}}}'
